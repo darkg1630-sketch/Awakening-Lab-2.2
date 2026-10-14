@@ -1,0 +1,11 @@
+{
+  "name": "System Awakening — LAB 2.2",
+  "short_name": "Awakening 2.2",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#050b14",
+  "theme_color": "#07111f",
+  "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}],
+  "description": "Sistema pessoal de evolução física, calistenia, missões e progressão."
+}

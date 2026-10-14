@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07111f">
+<title>System Awakening — LAB 2.2</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="ambient"></div>
+<header class="topbar">
+  <div class="sigil"><img src="shadow-knight.svg" alt="Símbolo do Cavaleiro das Sombras"></div>
+  <div><div class="eyebrow">SISTEMA PESSOAL DE EVOLUÇÃO</div><h1>SYSTEM <span>AWAKENING</span></h1></div>
+  <div class="lab">LAB 2.2</div>
+</header>
+<main>
+  <section class="hero panel">
+    <div class="hero-top"><span class="tag">JOGADOR • RANK E</span><span id="today" class="muted"></span></div>
+    <div class="hero-main">
+      <div><div class="eyebrow">NÍVEL ATUAL</div><div class="level" id="level">01</div></div>
+      <div class="xp-wrap"><div class="xp-line"><span>EXPERIÊNCIA</span><b id="xpText">0 / 100 XP</b></div><div class="bar"><i id="xpBar"></i></div><div class="muted small" id="nextLevel">100 XP para o próximo nível</div></div>
+    </div>
+    <div class="player-grid">
+      <label>Nome do jogador<input id="playerName" maxlength="24" value="Jogador"></label>
+      <label>Peso atual (kg)<input id="weight" type="number" min="20" max="350" step="0.1" value="82"></label>
+      <label>Altura (cm)<input id="height" type="number" min="100" max="230" value="180"></label>
+    </div>
+    <div class="rank-row"><span class="tag" id="rankTag">RANK E</span><span class="muted small" id="rankProgress">Avaliação de rank: ainda não realizada</span></div>
+    <div class="stats">
+      <div><span>STR</span><b id="str">E</b><small>Força</small></div>
+      <div><span>AGI</span><b id="agi">E</b><small>Agilidade</small></div>
+      <div><span>VIT</span><b id="vit">E</b><small>Vitalidade</small></div>
+      <div><span>STM</span><b id="stm">E</b><small>Resistência</small></div>
+      <div><span>DIS</span><b id="dis">E</b><small>Disciplina</small></div>
+    </div>
+    <div class="bmi-row"><span>IMC estimado</span><strong id="bmi">25,3</strong><span class="muted small">Referência geral, não diagnóstico.</span></div>
+  </section>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="missions">Missões</button>
+    <button class="tab" data-tab="training">Treino</button>
+    
+    <button class="tab" data-tab="progress">Progresso</button>
+  </nav>
+
+  <section id="missions" class="view active">
+    <div class="section-title"><div><div class="eyebrow">PROTOCOLO DIÁRIO</div><h2>Missões disponíveis</h2></div><span class="tag">+XP</span></div>
+    <div class="system-alert panel inset"><div class="eyebrow">NOTIFICAÇÃO DO SISTEMA</div><h3 id="missionStatusTitle">Missão diária disponível</h3><p id="missionStatusText" class="muted">Aceite a missão para iniciar seu protocolo de hoje.</p><div class="field-row"><button id="acceptMission" class="primary">ACEITAR MISSÃO</button><button id="declineMission" class="secondary">RECUSAR</button></div><div class="muted small" id="missionDeadline"></div></div>
+    <div class="system-agent panel inset"><div class="agent-head"><img src="shadow-knight.svg" alt=""/><div><div class="eyebrow">CANAL DIRETO • SISTEMA</div><h3>Assistente de campo</h3></div><span class="online-dot">● ONLINE</span></div><p id="agentMessage">Jogador identificado. Estou acompanhando seus registros. Não vou exigir perfeição: vou exigir consistência, técnica e honestidade nos resultados.</p><div class="agent-quick"><button class="secondary" data-agent="plan">Analisar meu dia</button><button class="secondary" data-agent="motivate">Relatório de status</button></div><div id="agentReply" class="agent-reply" aria-live="polite">Aguardando comando.</div></div><div class="section-title sub-title"><div><div class="eyebrow">PROTOCOLOS DE EVOLUÇÃO</div><h2>Missões fixas</h2></div><span class="tag">10–20 XP</span></div><div id="fixedMissionList" class="stack"></div>
+    <div class="note">O XP recompensa consistência. Ele não é uma medida direta da tua força física.</div>
+  </section>
+
+  <section id="training" class="view">
+    <div class="section-title"><div><div class="eyebrow">ADAPTAÇÃO REAL</div><h2>Treino do jogador</h2></div><span class="tag">SEM EQUIPAMENTO</span></div>
+    <div class="panel inset workout-clock">
+      <div class="eyebrow">PROTOCOLO DE TREINAMENTO</div><div class="timer" id="workoutTimer">00:00</div><div class="timer-actions"><button id="workoutStart" class="primary">Iniciar</button><button id="workoutPause" class="secondary">Pausar</button><button id="workoutReset" class="secondary">Zerar</button></div>
+      <div class="field-row"><label>Descanso entre séries (seg)<input id="restSeconds" type="number" min="5" max="300" value="60"></label><label class="sound-toggle"><span>Efeitos sonoros</span><select id="soundEnabled"><option value="on">Ativados</option><option value="off">Desativados</option></select></label></div>
+      <button id="restStart" class="secondary">Iniciar descanso</button><div class="muted small" id="workoutClockStatus">Cronômetro pronto.</div>
+    </div>
+    <div class="panel inset">
+      <div class="eyebrow">CALISTENIA E EQUIPAMENTOS</div><p class="muted small">Exercícios com o peso corporal ficam separados dos que exigem equipamento. Registre apenas movimentos que você consegue executar com segurança.</p><div class="field-row"><label>Exercício<select id="exercise"><option value="squat">Agachamentos</option><option value="pushup">Flexões no chão</option><option value="wallpush">Flexões na parede</option><option value="plank">Prancha</option><option value="pullup">Barra fixa (com barra)</option><option value="handgrip">Hand grip (equipamento)</option></select></label><label>Repetições concluídas<input id="reps" type="number" min="0" max="200" value="8"></label></div>
+      <label>Como foi o esforço?<select id="effort"><option value="easy">Fácil — conseguiria fazer mais</option><option value="moderate" selected>Moderado — exigiu atenção</option><option value="hard">Difícil — quase no meu limite</option><option value="pain">Senti dor ou desconforto preocupante</option></select></label>
+      <label>Observação (opcional)<textarea id="trainingNote" rows="2" placeholder="Ex.: técnica boa, precisei descansar..."></textarea></label>
+      <button id="saveTraining" class="primary">Registrar sessão</button>
+      <div id="adaptiveResult" class="result hidden"></div>
+    </div>
+    <div class="panel inset">
+      <div class="eyebrow">REGRA DE EVOLUÇÃO</div>
+      <h3>O nível desbloqueia. O corpo decide o ritmo.</h3>
+      <p class="muted">O protótipo sugere progressão gradual quando o treino fica confortável. Dor não é sinal para insistir: interrompa o movimento e ajuste o exercício. Não é preciso testar o máximo.</p>
+    </div>
+  </section>
+
+  <section id="movement" class="view legacy-movement" aria-hidden="true">
+    <div class="section-title"><div><div class="eyebrow">MOVIMENTO DIÁRIO</div><h2>Passos & caminhada</h2></div><span class="tag">CARDIO</span></div>
+    <div class="panel inset">
+      <div class="metric"><div><div class="eyebrow">PASSOS REGISTRADOS</div><div class="big-number" id="stepsToday">0</div></div><div class="ring" id="stepRing"><span id="stepPct">0%</span></div></div>
+      <label>Meta pessoal de passos<input id="stepGoal" type="number" min="100" max="30000" step="100" value="3000"></label>
+      <label>Adicionar passos contados no celular<input id="stepsInput" type="number" min="0" max="100000" step="100" placeholder="Ex.: 850"></label>
+      <button id="addSteps" class="primary">Registrar passos</button>
+      <div class="note">Como este é um protótipo web, os passos são inseridos manualmente. Ele não lê automaticamente o sensor do celular.</div>
+    </div>
+    <div class="panel inset">
+      <div class="eyebrow">CRONÔMETRO DE CAMINHADA</div>
+      <div class="timer" id="timer">00:00</div>
+      <div class="timer-actions"><button id="timerStart" class="primary">Iniciar</button><button id="timerPause" class="secondary">Pausar</button><button id="timerReset" class="secondary">Zerar</button></div>
+      <div class="field-row">
+        <label>Duração concluída (min)<input id="walkMinutes" type="number" min="0" max="600" value="0"></label>
+        <label>Distância aproximada (km)<input id="walkDistance" type="number" min="0" max="100" step="0.1" placeholder="Opcional"></label>
+      </div>
+      <button id="saveWalk" class="secondary">Salvar caminhada</button>
+      <div id="walkResult" class="muted small"></div>
+    </div>
+  </section>
+
+  <section id="progress" class="view">
+    <div class="section-title"><div><div class="eyebrow">REGISTRO DO JOGADOR</div><h2>Progresso recente</h2></div></div>
+    <div class="grid2">
+      <div class="panel inset"><div class="eyebrow">SESSÕES REGISTRADAS</div><div class="big-number" id="sessionCount">0</div></div>
+      <div class="panel inset"><div class="eyebrow">CAMINHADA TOTAL</div><div class="big-number" id="walkTotal">0 <small>min</small></div></div>
+    </div>
+    <div class="panel inset raid-panel"><div class="eyebrow">OPERAÇÃO DE PROMOÇÃO</div><h3>Raid de avaliação de rank</h3><p class="muted">Promoção não depende só de XP. A raid exige resultados consistentes em mais de uma avaliação e histórico de treino. Nunca faça repetições máximas com técnica comprometida.</p><p class="muted">Registre resultados reais e consistência. XP sozinho não aumenta seu rank.</p><label>Flexões com técnica confortável<input id="rankPushups" type="number" min="0" max="200" value="0"></label><label>Agachamentos com técnica confortável<input id="rankSquats" type="number" min="0" max="300" value="0"></label><label>Prancha (segundos)<input id="rankPlank" type="number" min="0" max="600" value="0"></label><button id="rankTest" class="primary">Avaliar rank</button><div id="rankResult" class="result hidden"></div></div>
+    <div class="panel inset"><h3>Últimos registros</h3><div id="history" class="stack muted">Ainda não há registros.</div></div>
+    <button id="exportData" class="secondary">Exportar backup (JSON)</button>
+    <button id="resetData" class="danger">Apagar dados deste protótipo</button>
+    <p class="note">Dados salvos apenas neste navegador/dispositivo. Esta versão é um laboratório separado e não altera o Beta 1.5.</p>
+  </section>
+</main>
+<footer>LAB 2.2 • PROJETO EXPERIMENTAL • BETA 1.5 PRESERVADA</footer>
+<div id="awakeningModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="awakeningTitle"><div class="modal-card"><div class="modal-mark">!</div><div class="eyebrow">NOTIFICAÇÃO</div><h2 id="awakeningTitle">Você adquiriu as qualificações para se tornar um Jogador.</h2><p>O Sistema está pronto para iniciar seu protocolo pessoal de evolução.</p><label>Nome do jogador<input id="setupName" maxlength="24" placeholder="Jogador"></label><label>Altura (cm)<input id="setupHeight" type="number" min="100" max="230" value="180"></label><label>Peso atual (kg)<input id="setupWeight" type="number" min="20" max="350" step="0.1" value="82"></label><div class="field-row"><button id="acceptAwakening" class="primary">SIM, ACEITAR</button><button id="declineAwakening" class="secondary">AGORA NÃO</button></div><p class="muted small">O perfil pode ser ajustado depois. O Sistema não substitui orientação profissional.</p></div></div>
+<script src="app.js"></script>
+</body></html>
